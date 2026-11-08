@@ -1,5 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import dataFilm from '../films.json' with { type: 'json' };
+import { CreateFilmDto } from './dto/create-film.dto.js';
+import { randomUUID } from 'crypto';
 
 export interface Film {
   id: string;
@@ -29,5 +31,19 @@ export class FilmsService {
       throw new NotFoundException(`Film dengan id ${id} tidak ditemukan`);
     }
     return film;
+  }
+
+  tambah(dto: CreateFilmDto):Film{
+    const filmBaru:Film={
+        id:randomUUID(),
+        judul: dto.judul,
+        genre: dto.genre,
+        tahun: dto.tahun,
+        rating: dto.rating,
+        sudahDitonton: dto.sudahDitonton ?? false,
+    }
+
+    this.films.push(filmBaru);
+    return filmBaru;
   }
 }
