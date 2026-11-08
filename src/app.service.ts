@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import dataFilm from './films.json' with {type : 'json'}
 
 export interface Film {
@@ -23,8 +23,16 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  
+
   semua(): Film[] {
     return this.films;
+  }
+
+  cariSatu(id:string):Film{
+    const film = this.films.find((f)=> f.id === id);
+    if(!film){
+      throw new NotFoundException(`Film dengan id ${id} tidak ditemukan`);
+    }
+    return film;
   }
 }

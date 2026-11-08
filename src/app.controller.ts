@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService, Film } from './app.service.js';
+import { Controller, Get, Param } from '@nestjs/common';
+import { AppService} from './app.service.js';
+import type {Film} from './app.service.js'
 
 @Controller()
 export class AppController {
@@ -13,5 +14,10 @@ export class AppController {
   @Get('films')
   tampilkanSemua(): Film[]{
     return this.appService.semua();
+  }
+
+  @Get('films/:id')
+  tampilkanSatu(@Param('id') id:string):Film{
+    return this.appService.cariSatu(id);
   }
 }
