@@ -11,12 +11,12 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('films')
+  @Get('test-films')
   tampilkanSemua(): Film[]{
     return this.appService.semua();
   }
 
-  @Get('films/:id')
+  @Get('test-films/:id')
   tampilkanSatu(@Param('id') id:string):Film{
     return this.appService.cariSatu(id);
   }
