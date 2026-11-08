@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import dataFilm from '../films.json' with { type: 'json' };
 import { CreateFilmDto } from './dto/create-film.dto.js';
 import { randomUUID } from 'crypto';
+import { UpdateFilmDto } from './dto/update-film.dto.js';
 
 export interface Film {
   id: string;
@@ -45,5 +46,20 @@ export class FilmsService {
 
     this.films.push(filmBaru);
     return filmBaru;
+  }
+
+   ubah(id: string, dto: UpdateFilmDto): Film {
+    const film = this.cariSatu(id);
+    const perubahan = Object.fromEntries(
+      Object.entries(dto).filter(([, nilai]) => nilai !== undefined),
+    );
+
+    Object.assign(film, perubahan);
+    return film;
+  }
+
+  hapus(id: string): void {
+    const film = this.cariSatu(id);
+    this.films = this.films.filter((f) => f.id !== film.id);
   }
 }
