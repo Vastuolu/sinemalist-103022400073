@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import dataFilm from '../films.json' with { type: 'json' };
 import { CreateFilmDto } from './dto/create-film.dto.js';
 import { randomUUID } from 'crypto';
@@ -22,8 +22,19 @@ export class FilmsService {
     this.logger.log(`Berhasil memuat ${this.films.length} film dari films.json`);
   }
 
-  semua(): Film[] {
-    return this.films;
+  semua(ditonton?: string): Film[] {
+    if(ditonton === undefined){
+        return this.films;
+    }
+
+    if(ditonton !== 'true' && ditonton !== 'false'){
+        throw new BadRequestException(
+            'Parameter ditonton harus bernilai true atau false',
+        );
+    }
+
+    const target = ditonton === 'true';
+    return this.films.filter((film)=> film.sudahDitonton === target);
   }
 
   cariSatu(id: string): Film {

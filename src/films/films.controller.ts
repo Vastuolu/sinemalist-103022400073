@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
 import { FilmsService } from './films.service.js';
 import type { Film } from './films.service.js';
 import { CreateFilmDto } from './dto/create-film.dto.js';
@@ -9,8 +9,8 @@ export class FilmsController {
   constructor(private readonly filmsService: FilmsService) {}
 
   @Get()
-  tampilkanSemua(): Film[] {
-    return this.filmsService.semua();
+  tampilkanSemua(@Query('ditonton') ditonton?:string): Film[] {
+    return this.filmsService.semua(ditonton); 
   }
 
   @Get(':id')
